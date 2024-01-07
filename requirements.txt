@@ -1,0 +1,13 @@
+aiohttp
+aiosignal
+async-timeout
+attrs
+charset-normalizer
+discord.py
+frozenlist
+idna
+multidict
+yarl
+colorama
+PyNaCl
+pysqlite3
