@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from discord.ext import commands
 from scripts.logger import log_channel_created, log_channel_cleanup
@@ -23,7 +24,7 @@ class CreateChannel(commands.Cog):
                 new_channel = await guild.create_voice_channel(self.get_channel_name(author))
                 await ctx.send(f"Canal de voz {self.get_channel_name(author)} criado com sucesso!")
 
-                # Inicia o temporizador para limpar o canal após 5 minutos se estiver vazio
+                # Inicia o temporizador para limpar o canal após 1 minutos se estiver vazio
                 self.start_channel_cleanup_timer(new_channel)
                 log_channel_created(new_channel.name)  # Log do canal criado
 
@@ -31,13 +32,13 @@ class CreateChannel(commands.Cog):
             await ctx.send("O bot não tem permissão para criar canais de voz.")
 
     def start_channel_cleanup_timer(self, channel):
-        # Inicia o temporizador para limpar o canal após 5 minutos se estiver vazio
+        # Inicia o temporizador para limpar o canal após 1 minutos se estiver vazio
         cleanup_task = asyncio.ensure_future(self.schedule_channel_cleanup(channel))
         self.channel_cleanup_tasks[channel.id] = cleanup_task
 
     async def schedule_channel_cleanup(self, channel):
-        # Agende a verificação e a exclusão do canal após 5 minutos se estiver vazio
-        await asyncio.sleep(5 * 60)  # 5 minutos em segundos
+        # Agende a verificação e a exclusão do canal após 1 minutos se estiver vazio
+        await asyncio.sleep(1 * 60)  # 1 minutos em segundos
         if len(channel.members) == 0:
             await channel.delete()
             log_channel_cleanup(channel.name)  # Log do canal removido automaticamente

@@ -11,3 +11,5 @@ yarl
 colorama
 PyNaCl
 pysqlite3
+schedule
+discord-webhook
